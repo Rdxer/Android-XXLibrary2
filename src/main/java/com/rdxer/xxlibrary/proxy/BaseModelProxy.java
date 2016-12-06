@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.litesuits.orm.LiteOrm;
-import com.rdxer.xxlibrary.base.BaseApplication;
 import com.rdxer.xxlibrary.bean.BaseModel;
 import com.rdxer.xxlibrary.utils.Log;
 
@@ -197,7 +196,7 @@ public abstract class BaseModelProxy<T extends BaseModel> {
     ///************************************************
 
     public static LiteOrm getDB(){
-        return BaseApplication.getShared().getDb();
+        return null;//BaseApplication.getShared().getDb();
     }
 
     /**
@@ -246,12 +245,9 @@ public abstract class BaseModelProxy<T extends BaseModel> {
      * 从数据库读取数据
      * @return
      */
-    public static  <ModelT extends BaseModel, ModelProxyT extends BaseModelProxy<ModelT>> List<ModelProxyT> getDataFromDB(Class<ModelT> modelClass,Class<ModelProxyT> modelProxyTClass){
+    public static  <ModelT extends BaseModel, ModelProxyT extends BaseModelProxy<ModelT>> List<ModelProxyT> getDataFromDB(Class<ModelT> modelClass,Class<ModelProxyT> modelProxyTClass) {
         List<ModelT> modelTList = getDB().query(modelClass);
-        List<ModelProxyT> modelProxyTList = generateModelProxyList(modelTList,modelProxyTClass);
+        List<ModelProxyT> modelProxyTList = generateModelProxyList(modelTList, modelProxyTClass);
         return modelProxyTList;
     }
-
-
-
 }
