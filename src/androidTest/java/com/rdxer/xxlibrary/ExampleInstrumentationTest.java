@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.litesuits.orm.LiteOrm;
 import com.rdxer.xxlibrary.utils.HTTPUtils;
 import com.rdxer.xxlibrary.utils.Log;
 
@@ -16,6 +17,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
+import static com.rdxer.xxlibrary.proxy.BaseModelProxy.setDb;
+import static com.rdxer.xxlibrary.proxy.BaseModelProxy.getDB;
 import static org.junit.Assert.*;
 
 /**
@@ -32,6 +35,8 @@ public class ExampleInstrumentationTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         testhttp(appContext);
         assertEquals("com.rdxer.xxlibrary.test", appContext.getPackageName());
+
+
     }
 
     private void testhttp(Context context) {

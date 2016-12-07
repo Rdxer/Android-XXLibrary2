@@ -195,9 +195,18 @@ public abstract class BaseModelProxy<T extends BaseModel> {
     ///                     数据库
     ///************************************************
 
-    public static LiteOrm getDB(){
-        return null;//BaseApplication.getShared().getDb();
+    // 数据库
+    private static LiteOrm db = null;
+    public static LiteOrm getDB() {
+        return db;
     }
+    public static void setDb(LiteOrm mdb) {
+        db = mdb;
+    }
+
+//    public static LiteOrm getDB(){
+//        return null;//BaseApplication.getShared().getDb();
+//    }
 
     /**
      * 保存到数据库

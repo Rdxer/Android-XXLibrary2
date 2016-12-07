@@ -16,6 +16,17 @@ import com.rdxer.xxlibrary.HTTPUtils.Request.JSONRequest;
  */
 public abstract class HTTPUtils {
 
+
+    // 网络
+    private static HTTPUtils api;
+    public static HTTPUtils getApi() {
+        return api;
+    }
+    public static void setApi(HTTPUtils sapi) {
+        api = sapi;
+    }
+
+
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private Context context;
@@ -28,6 +39,10 @@ public abstract class HTTPUtils {
     public void setBaseURL(String baseURL) {
         this.baseURL = baseURL;
     }
+
+//    public HTTPUtils() {
+//        this(null);
+//    }
 
     public HTTPUtils(Context context) {
         this.context = context;
