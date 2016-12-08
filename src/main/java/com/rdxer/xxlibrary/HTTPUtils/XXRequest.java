@@ -1,6 +1,9 @@
 package com.rdxer.xxlibrary.HTTPUtils;
 
+import android.content.Intent;
+
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.IntegerCodec;
 import com.rdxer.xxlibrary.HTTPUtils.Request.JSONObjectRequest;
 import com.rdxer.xxlibrary.HTTPUtils.error.ProcessingError;
 import com.rdxer.xxlibrary.HTTPUtils.listener.ErrorListener;
@@ -11,7 +14,7 @@ import com.rdxer.xxlibrary.HTTPUtils.listener.OKListener;
  * Created by LXF on 16/6/3.
  */
 
-public class XXRequest<T> extends JSONObjectRequest<T> {
+public abstract class  XXRequest<T> extends JSONObjectRequest<T> {
 
     private String key_data = "data";
     private String key_errcode = "errcode";
@@ -71,7 +74,16 @@ public class XXRequest<T> extends JSONObjectRequest<T> {
 
     @Override
     protected void parseProcessingError(ProcessingError error) throws Exception {
-        error.setErrcode(error.getResponse().getInteger(getKey_errcode()));
-        error.setMessage(error.getResponse().getString(getKey_errmsg()));
+        error.setErrcode(parseProcessingError_errorCode(error));
+        error.setMessage(parseProcessingError_errorMesage(error));
     }
+
+    protected Integer parseProcessingError_errorCode(ProcessingError error) throws Exception {
+        return error.getResponse().getInteger(getKey_errcode());
+    }
+
+    protected String parseProcessingError_errorMesage(ProcessingError error) throws Exception {
+        return error.getResponse().getString(getKey_errmsg());
+    }
+
 }

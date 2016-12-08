@@ -144,7 +144,7 @@ public abstract class JSONRequest<T> extends Request<T> {
      * @deprecated Use {@link #getBody()}.
      */
     @Override
-    public byte[] getPostBody() {
+    public byte[] getPostBody() throws AuthFailureError {
         return getBody();
     }
 
@@ -153,8 +153,17 @@ public abstract class JSONRequest<T> extends Request<T> {
         return PROTOCOL_CONTENT_TYPE;
     }
 
+    public boolean isJSONRequest() {
+        return isJSONRequest;
+    }
+
+    private boolean isJSONRequest = true;
+
     @Override
-    public byte[] getBody() {
+    public byte[] getBody() throws AuthFailureError {
+        if (isJSONRequest() == false){
+            return super.getBody();
+        }
         try {
             if (getRequestBody() == null || getRequestBody().size() == 0){
                 return null;
