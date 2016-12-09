@@ -37,7 +37,7 @@ public class ModelListRequest<T> extends XXRequest<List<T>> {
             if (isProxyClass){
                 t = getTClass().newInstance();
                 BaseModelProxy modelProxy = (BaseModelProxy) t;
-                BaseModel model = (BaseModel) r.toJavaObject(modelProxy.getModelClass());
+                BaseModel model = (BaseModel) JSONObject.toJavaObject(r,modelProxy.getModelClass());
                 modelProxy.setModel(model);
             }
             else{

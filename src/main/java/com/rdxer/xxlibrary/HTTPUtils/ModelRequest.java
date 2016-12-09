@@ -1,5 +1,6 @@
 package com.rdxer.xxlibrary.HTTPUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.rdxer.xxlibrary.HTTPUtils.listener.ErrorListener;
 import com.rdxer.xxlibrary.HTTPUtils.listener.FailedListener;
@@ -28,7 +29,7 @@ public class ModelRequest<T> extends XXRequest<T> {
         if (BaseModelProxy.class.isAssignableFrom(getTClass())) {
             t = getTClass().newInstance();
             BaseModelProxy modelProxy = (BaseModelProxy) t;
-            BaseModel model = (BaseModel) jsonObject.toJavaObject(modelProxy.getModelClass());
+            BaseModel model = (BaseModel)  JSON.toJavaObject(jsonObject,modelProxy.getModelClass());
             modelProxy.setModel(model);
         } else {
             t = jsonObject.toJavaObject(getTClass());
