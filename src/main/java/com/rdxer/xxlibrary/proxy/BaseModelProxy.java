@@ -140,7 +140,7 @@ public abstract class BaseModelProxy<T extends BaseModel> {
         List modelList = new ArrayList();
         for (int i = 0; i < jsonArray.size(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            modelList.add(jsonObject.toJavaObject(t.getModelClass()));
+            modelList.add(JSON.toJavaObject(jsonObject,t.getModelClass()));
         }
         return generateModelProxyList(modelList, modelProxyClazz);
     }
