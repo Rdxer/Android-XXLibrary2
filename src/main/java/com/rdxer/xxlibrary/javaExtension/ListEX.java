@@ -9,72 +9,112 @@ import java.util.List;
 
 public class ListEX {
 
-    public static  <T>  T fastObj(List<T> list){
-        return safe(list,0);
+    public static <T> T fastObj(List<T> list) {
+        return safe(list, 0);
     }
-    public static <T> void fastObj(List<T> list,IEXValue<T> iex){
+
+    public static <T> void fastObj(List<T> list, IEXValue<T> iex) {
         T v = fastObj(list);
         if (v != null) {
             iex.complete(v);
         }
     }
 
-    public  static <T> T lastObj(List<T> list){
-        if (list == null){
-            return null;
+    public static <T> void fastObj(List<T> list, IEXValue2<T> iex) {
+        T v = fastObj(list);
+        if (v != null) {
+            iex.complete(v);
+        } else {
+            iex.noValue();
         }
-        return safe(list,list.size()-1);
     }
 
-    public  static  <T> void lastObj(List<T> list,IEXValue<T> iex){
+    public static <T> T lastObj(List<T> list) {
+        if (list == null) {
+            return null;
+        }
+        return safe(list, list.size() - 1);
+    }
+
+    public static <T> void lastObj(List<T> list, IEXValue<T> iex) {
         T v = lastObj(list);
         if (v != null) {
             iex.complete(v);
         }
     }
 
-    public  static <T> T safe(List<T> list,int index){
+    public static <T> void lastObj(List<T> list, IEXValue2<T> iex) {
+        T v = lastObj(list);
+        if (v != null) {
+            iex.complete(v);
+        } else {
+            iex.noValue();
+        }
+    }
+
+    public static <T> T safe(List<T> list, int index) {
         if (list == null) {
             return null;
         }
         int size = list.size();
-        if (size < 1){
+        if (size < 1) {
             return null;
         }
-        if (size<=index){
+        if (size <= index) {
             return null;
         }
         return list.get(index);
     }
 
-    public  static <T> void safe(List<T> list,int index,IEXValue<T> iex){
-        T v = safe(list,index);
+    public static <T> void safe(List<T> list, int index, IEXValue<T> iex) {
+        T v = safe(list, index);
         if (v != null) {
             iex.complete(v);
         }
     }
 
-    public  static <T> List<T> filter(List<T> list,IEXValueFilter<T> filter){
+    public static <T> void safe(List<T> list, int index, IEXValue2<T> iex) {
+        T v = safe(list, index);
+        if (v != null) {
+            iex.complete(v);
+        } else {
+            iex.noValue();
+        }
+    }
+
+    public static <T> List<T> filter(List<T> list, IEXValueFilter<T> filter) {
         List<T> res = new ArrayList<>();
-        for (T obj:list) {
-            if (filter.filter(obj)){
+        for (T obj : list) {
+            if (filter.filter(obj)) {
                 res.add(obj);
             }
         }
         return res;
     }
 
-    public   static <T> List<T> filter(List<T> list,IEXValueCompose<T> compose){
-        List<T> res = new ArrayList<>();
-        for (T obj:list) {
-            T resObj = compose.compose(obj);
-            if (resObj != null){
+    public static <T, T2> List<T2> generate(List<T> list, IEXValueCompose<T, T2> compose) {
+        List<T2> res = new ArrayList<>();
+        for (T obj : list) {
+            T2 resObj = compose.compose(obj);
+            if (resObj != null) {
                 res.add(resObj);
             }
         }
         return res;
     }
 
-
+    public static String join(List<?> list, String separator) {
+        if (list == null || list.isEmpty()) {
+            return "";
+        }
+        int offset = list.size() - 1;
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < offset; i++) {
+            sb.append(list.get(i));
+            sb.append(separator);
+        }
+        sb.append(list.get(offset));
+        return sb.toString();
+    }
 
 }

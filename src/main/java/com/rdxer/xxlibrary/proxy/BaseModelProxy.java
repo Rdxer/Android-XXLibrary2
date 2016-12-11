@@ -1,5 +1,7 @@
 package com.rdxer.xxlibrary.proxy;
 
+import android.text.TextUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -73,7 +75,8 @@ public abstract class BaseModelProxy<T extends BaseModel> {
      * @param object JSONObject
      */
     public BaseModelProxy(JSONObject object) {
-        this.setModel(object.toJavaObject(getModelClass()));
+        this.setModel(JSON.toJavaObject(object,getModelClass()));
+        ///  object.toJavaObject(getModelClass()))
     }
 
     /**
@@ -85,6 +88,53 @@ public abstract class BaseModelProxy<T extends BaseModel> {
         super();
         setModelJSON(modelJSONString);
     }
+
+    //////////////////////
+    //      静态构造
+    /**
+     * 生成模型代理数组
+     * @param modelJSONString 模型数据的json字符串
+     * @param modelProxyClazz 模型代理的类
+     * @param <T> 约束的泛型
+     * @return 模型代理数组
+     */
+    public static <T extends BaseModelProxy> T generateModelProxy(String modelJSONString, Class<T> modelProxyClazz) {
+        if (TextUtils.isEmpty(modelJSONString)){
+            return null;
+        }
+        T t = null;
+        try {
+            t = modelProxyClazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if (t == null) {
+            Log.e("解析失败...此类型不正常...:" + modelProxyClazz);
+            return t;
+        }
+        t.setModelJSON(modelJSONString);
+        return t;
+    }
+
+//    /**
+//     * @param object JSONObject
+//     */
+//    public BaseModelProxy(JSONObject object) {
+//        this.setModel(JSON.toJavaObject(object,getModelClass()));
+//        ///  object.toJavaObject(getModelClass()))
+//    }
+//
+//    /**
+//     * 构造模型代理实例
+//     *
+//     * @param modelJSONString 模型的json字符穿
+//     */
+//    public BaseModelProxy(String modelJSONString) {
+//        super();
+//        setModelJSON(modelJSONString);
+//    }
 
 
     ///************************************************

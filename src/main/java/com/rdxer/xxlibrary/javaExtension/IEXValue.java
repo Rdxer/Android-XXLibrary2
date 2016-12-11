@@ -7,3 +7,4 @@ package com.rdxer.xxlibrary.javaExtension;
 public interface IEXValue<T> {
     void complete(T v);
 }
+
