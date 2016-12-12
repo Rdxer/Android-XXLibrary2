@@ -117,4 +117,14 @@ public class ListEX {
         return sb.toString();
     }
 
+    public static <T> int count(List<T> list,IEXValueFilter<T> filter){
+        int count = 0;
+        for (T t : list) {
+            if (filter.filter(t)){
+                count ++;
+            }
+        }
+        return count;
+    }
+
 }

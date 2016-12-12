@@ -169,7 +169,7 @@ public abstract class BaseModelProxy<T extends BaseModel> {
 
     /**
      * 生成模型代理数组
-     * @param jsonArray jsonArray
+     * @param jsonArray 模型的 jsonArray
      * @param modelProxyClazz modelProxy class
      * @param <T> 约束泛型
      * @return 模型数组
@@ -193,6 +193,34 @@ public abstract class BaseModelProxy<T extends BaseModel> {
             modelList.add(JSON.toJavaObject(jsonObject,t.getModelClass()));
         }
         return generateModelProxyList(modelList, modelProxyClazz);
+    }
+
+    /**
+     * 生成模型代理数组
+     * @param jsonArray jsonArray
+     * @param modelProxyClazz modelProxy class
+     * @param <T> 约束泛型
+     * @return 模型数组
+     */
+    public static <T extends BaseModelProxy> List<T> generateModelProxyListWithMPJA(JSONArray jsonArray, Class<T> modelProxyClazz) {
+        T t = null;
+        try {
+            t = modelProxyClazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        if (t == null) {
+            Log.e("解析失败...此类型不正常...:" + modelProxyClazz);
+            return new ArrayList<T>();
+        }
+        List modelList = new ArrayList();
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            modelList.add(JSON.toJavaObject(jsonObject,t.getModelClass()));
+        }
+        return modelList;
     }
 
     /**
