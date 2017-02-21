@@ -256,6 +256,25 @@ public abstract class BaseModelProxy<T extends BaseModel> {
      * @param mpList 模型代理list
      * @return modelList模型了list
      */
+    public static <ModelT> List<ModelT> generateModelList(JSONArray jsonArray,Class<ModelT> clazz) {
+        List<ModelT> modelTList = new ArrayList();
+        if (jsonArray == null) {
+            return modelTList;
+        }
+        JSONObject[] ja = jsonArray.toArray(new JSONObject[]{});
+        for (JSONObject mp : ja) {
+            modelTList.add(JSON.toJavaObject(mp,clazz));
+        }
+
+        return modelTList;
+    }
+
+    /**
+     * 模型代理List转成模型列表
+     *
+     * @param mpList 模型代理list
+     * @return modelList模型了list
+     */
     public static <ModelT extends BaseModel, ModelProxyT extends BaseModelProxy<ModelT>> List<ModelT> generateModelList(List<ModelProxyT> mpList) {
         List<ModelT> modelTList = new ArrayList();
         if (mpList == null) {
